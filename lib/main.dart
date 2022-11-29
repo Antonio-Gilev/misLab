@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Hello World',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Hello World'),
+          title: const Text('191102'),
         ),
         body: Column(
           children: [
