@@ -1,72 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:labs/pizza_answer.dart';
+import './pizza_question.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
 
-  // This widget is the root of your application.
+  @override
+  State<StatefulWidget> createState(){
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+
+  void _iWasTapped() {
+    setState(() {
+      _questionIndex += 1;
+    });
+    print('I Was Tapped');
+  }
+
+  var questions = [
+    {'question' : 'Choose pants',
+    'answer': ['Jeans', 'Trousers', 'Shorts',]},
+
+    {'question' : 'Choose Shirt',
+      'answer': ['T-Shirt', 'Classic Shirt', 'Hawaiian Shirt',]},
+
+    {'question' : 'Select Accessories',
+      'answer': ['Glasses', 'Hat', 'Watch', 'All of the above']},
+  ];
+  var _questionIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: '191102'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+      title: 'Hello World',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Hello World'),
+        ),
+        body: Column(
+          children: [
+            PizzaQuestion(questions[_questionIndex]['question']),
+            ...(questions[_questionIndex]['answer'] as List<String>).map((answer) {
+              return PizzaAnswer(answer, _iWasTapped);
+            }),
           ],
         ),
-      ),
-      backgroundColor: Colors.green,
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      )
     );
   }
 }
