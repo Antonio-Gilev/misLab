@@ -1,72 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:labs/kolokvium.dart';
+import 'package:labs/widgets/nov_element.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(( const MaterialApp(home: MyApp() ,)));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: '191102'),
-    );
+  State<StatefulWidget> createState(){
+    return _MyAppState();
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class _MyAppState extends State<MyApp> {
 
-  final String title;
+  List<Kolokvium> kolList = [
+    Kolokvium("name", DateTime.now()),
+    Kolokvium("name2", DateTime.now())
+  ];
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  void _addItemFunction(BuildContext ct){
+    showModalBottomSheet(
+        context: ct, builder: (ct){
+          return GestureDetector(
+            onTap: () {Navigator.pop(context);},
+            behavior: HitTestBehavior.opaque,
+            child: NovElement(_addNewItemToList),
+          );
+        });
+  }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+  void _addNewItemToList(Kolokvium kolokvium){
     setState(() {
-      _counter++;
+      kolList.add(kolokvium);
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
+    return MaterialApp(
 
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+      title: 'Hello World',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('191102'),
+          actions: <Widget>[
+            IconButton(onPressed: () => _addItemFunction(context), icon: const Icon(Icons.add))
           ],
         ),
-      ),
-      backgroundColor: Colors.green,
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+
+        body: Column(
+          children: [
+            ...kolList
+          ],
+        ),
+      )
     );
   }
 }
