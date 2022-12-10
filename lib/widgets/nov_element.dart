@@ -18,21 +18,21 @@ class NovElement extends StatefulWidget{
 class _NovElementState extends State<NovElement>{
 
   final _nameController = TextEditingController();
+  final _durationController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
-  late String naslov;
-  late double vrednost;
+  DateTime until = DateTime.now();
 
   void _submitData(){
     if(selectedDate.toString().isEmpty){
       return;
     }
     final name = _nameController.text;
-    if(name.isEmpty ){
+    final duration = _durationController.text;
+    if(name.isEmpty || duration.isEmpty){
       return;
     }
-
-    final newKolokvium = Kolokvium(name, selectedDate);
+    final newKolokvium = Kolokvium(name, selectedDate, selectedDate.add(Duration(minutes: int.parse(duration))));
     widget.addItem(newKolokvium);
     Navigator.of(context).pop();
   }
@@ -76,9 +76,18 @@ class _NovElementState extends State<NovElement>{
               }
             },
           ),
+          TextField(
+            controller: _durationController,
+            decoration: const InputDecoration(labelText: "Времетраење во минути"),
+            onSubmitted: (_) => _submitData(),
+            keyboardType: TextInputType.number,
+          ),
           Container(
             margin: const EdgeInsets.all(15),
-            child: FloatingActionButton(onPressed: _submitData, child: const Icon(Icons.add),
+            child: FloatingActionButton(
+              backgroundColor: Colors.blue,
+              onPressed: _submitData,
+              child: const Icon(Icons.add),
             ),
           ),
         ],
