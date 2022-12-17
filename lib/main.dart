@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:labs/services/local_notification_service.dart';
+import 'package:labs/widgets/maps.dart';
 import 'package:labs/widgets/nov_element.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -64,6 +65,18 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  void _showMaps(BuildContext ct){
+    showModalBottomSheet(
+        context: ct,
+        isScrollControlled: true,
+        builder: (ct){
+          return GestureDetector(
+            onTap: () {Navigator.pop(ct);},
+            behavior: HitTestBehavior.opaque,
+            child: Maps(kolList),
+          );
+        });
+  }
 
 
   @override
@@ -97,6 +110,9 @@ class _MainPageState extends State<MainPage> {
           IconButton(
               onPressed: () => _addItemFunction(context),
               icon: const Icon(Icons.add)),
+          IconButton(
+              onPressed: () => _showMaps(context),
+              icon: const Icon(Icons.map)),
           IconButton(
             onPressed: () {
               sharedPreferences.clear();

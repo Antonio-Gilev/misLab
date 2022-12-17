@@ -53,7 +53,7 @@ class Kolokvium extends StatelessWidget{
           return GestureDetector(
             onTap: () {Navigator.pop(ct);},
             behavior: HitTestBehavior.opaque,
-            child: Maps(name, lat, lon, place),
+            child: Maps([this,]),
           );
         });
   }

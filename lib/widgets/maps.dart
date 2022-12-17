@@ -4,13 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:labs/kolokvium.dart';
 
 class Maps extends StatefulWidget{
-  String name;
-  String lat;
-  String lon;
-  Places place;
+  // String name;
+  // String lat;
+  // String lon;
+  // Places place;
+
+  List<Kolokvium> kolokviums;
 
 
-  Maps(this.name, this.lat, this.lon, this.place);
+  Maps(this.kolokviums);
 
   @override
   State<StatefulWidget> createState() => _MapsState();
@@ -25,15 +27,18 @@ class _MapsState extends State<Maps>{
   Future<void> _onMapCreated(GoogleMapController controller) async {
     setState(() {
       _markers.clear();
+      for (final kol in widget.kolokviums) {
         final marker = Marker(
-          markerId: MarkerId(widget.name),
-          position: LatLng(double.parse(widget.lat), double.parse(widget.lon)),
+          markerId: MarkerId(kol.name),
+          position: LatLng(double.parse(kol.lat), double.parse(kol.lon)),
           infoWindow: InfoWindow(
-            title: widget.place.name.toString(),
-            snippet: widget.name,
+            title: kol.place.name.toString(),
+            snippet: kol.name,
           ),
         );
-        _markers[widget.name] = marker;
+        _markers[kol.name] = marker;
+      }
+
     });
   }
 
@@ -48,9 +53,9 @@ class _MapsState extends State<Maps>{
         ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: LatLng(double.parse(widget.lat), double.parse(widget.lon)),
-            zoom: 15.0,
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(41.9981, 21.4254),
+            zoom: 10.0,
           ),
           markers: _markers.values.toSet(),
           scrollGesturesEnabled: true,
