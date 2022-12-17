@@ -19,6 +19,7 @@ class _NovElementState extends State<NovElement>{
 
   final _nameController = TextEditingController();
   final _durationController = TextEditingController();
+  Places dropdownvalue = Places.TMF;
 
   DateTime selectedDate = DateTime.now();
   DateTime until = DateTime.now();
@@ -32,7 +33,7 @@ class _NovElementState extends State<NovElement>{
     if(name.isEmpty || duration.isEmpty){
       return;
     }
-    final newKolokvium = Kolokvium(name, selectedDate, selectedDate.add(Duration(minutes: int.parse(duration))));
+    final newKolokvium = Kolokvium(name, selectedDate, selectedDate.add(Duration(minutes: int.parse(duration))), dropdownvalue);
     widget.addItem(newKolokvium);
     Navigator.of(context).pop();
   }
@@ -42,6 +43,7 @@ class _NovElementState extends State<NovElement>{
     final format = DateFormat("yyyy-MM-dd HH:mm");
     return Container(
       padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       child: Column(
         children: [
           TextField(
@@ -81,6 +83,22 @@ class _NovElementState extends State<NovElement>{
             decoration: const InputDecoration(labelText: "Времетраење во минути"),
             onSubmitted: (_) => _submitData(),
             keyboardType: TextInputType.number,
+          ),
+          DropdownButtonFormField(
+              items: Places.values.map((Places items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items.name),
+                );
+              }).toList(),
+              onChanged: (Places? newValue){
+                setState(() {
+                  dropdownvalue = newValue!;
+                });
+              },
+            icon: const Icon(Icons.keyboard_arrow_down),
+            hint: const Text('Локација'),
+
           ),
           Container(
             margin: const EdgeInsets.all(15),

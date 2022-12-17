@@ -41,8 +41,8 @@ class _MainPageState extends State<MainPage> {
   late final LocalNotificationService service;
 
   List<Kolokvium> kolList = [
-    Kolokvium("name", DateTime.now(), DateTime.now().add(const Duration(minutes: 90))),
-    Kolokvium("name2", DateTime.now(), DateTime.now().add(const Duration(minutes: 90)))
+    Kolokvium("name", DateTime.now(), DateTime.now().add(const Duration(minutes: 90)), Places.FEIT),
+    Kolokvium("name2", DateTime.now(), DateTime.now().add(const Duration(minutes: 90)), Places.TMF)
   ];
 
   void _addItemFunction(BuildContext ct){
@@ -114,9 +114,10 @@ class _MainPageState extends State<MainPage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter),
         ),
-        child: Column(
+        child: ListView(
+          padding: const EdgeInsets.all(8),
           children: [
-            ...kolList,
+            ...kolList
           ],
         ),
       ),
@@ -134,7 +135,7 @@ class _MainPageState extends State<MainPage> {
 
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.black,
         onPressed: () async {
           await service.showNotification(id: 0, title: 'Notification Title', body: 'Notification Body');
         },
