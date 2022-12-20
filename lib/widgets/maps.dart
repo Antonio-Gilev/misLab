@@ -53,6 +53,8 @@ class _MapsState extends State<Maps>{
         ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
+          zoomGesturesEnabled: true,
+          zoomControlsEnabled: true,
           initialCameraPosition: const CameraPosition(
             target: LatLng(41.9981, 21.4254),
             zoom: 10.0,
